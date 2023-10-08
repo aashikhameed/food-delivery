@@ -14,7 +14,11 @@ const SplashScreen = ({navigation}) => {
             if (!user) {
                 navigation.replace(screenNames.loginScreen)
             } else {
-                navigation.replace(screenNames.dashboardScreen)
+                if (!user?.displayName) {
+                    navigation.replace(screenNames.userInformationScreen)
+                } else {
+                    navigation.replace(screenNames.dashboardScreen)
+                }
             }
         })
     }, [])

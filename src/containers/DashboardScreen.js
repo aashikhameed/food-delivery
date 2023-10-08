@@ -9,8 +9,7 @@ import { screenNames } from '../router/routes';
 const DashboardScreen = ({navigation}) => {
 
     const logoutPressed = useCallback(() => {
-        auth().signOut();
-        navigation.replace(screenNames.splahScreen)
+        
     }, [])
 
     return (

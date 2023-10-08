@@ -28,8 +28,12 @@ const LoginScreen = ({navigation}) => {
         try {
             setLoading(true)
             const response = await verification.confirm(otpValue);
-            navigation.replace(screenNames.dashboardScreen)
-            console.log(response)
+            const {user} = response;
+            if (!user?.displayName) {
+                navigation.replace(screenNames.userInformationScreen)
+            } else {
+                navigation.replace(screenNames.dashboardScreen)
+            }
         } catch (e) {
             console.log(e)
         }
