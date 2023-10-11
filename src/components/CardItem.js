@@ -6,20 +6,21 @@ import { responsiveHeight, responsiveWidth } from 'react-native-responsive-dimen
 
 // create a component
 const CardItem = ({ item, index }) => {
+    const {name, image, description, size, price} = item;
     return (
         <View style={styles.container}>
             <Card style={{ borderRadius: 8, overflow: "hidden" }} mode='elevated'>
-                <ImageBackground source={{ uri: `https://source.unsplash.com/random/300x200?&sig=${index}` }}>
+                <ImageBackground source={{ uri: image }}>
                     <View style={{ height: responsiveHeight(26) }}>
                         <View style={{ justifyContent: 'flex-end', flex: 1 }}>
-                            <View style={{ backgroundColor: "rgba(0,0,0,.5)", paddingHorizontal: responsiveWidth(2) }}>
-                                <Text style={styles.textWhite} variant='titleLarge'>Food name</Text>
-                                <Text style={styles.textWhite} variant='bodyMedium'>food descriptio appears here</Text>
+                            <View style={{ backgroundColor: "rgba(0,0,0,.7)", paddingHorizontal: responsiveWidth(2) }}>
+                                <Text style={styles.textWhite} variant='titleLarge'>{name}</Text>
+                                <Text style={styles.textWhite} variant='bodyMedium'>{description}</Text>
                                 <Divider style={{ backgroundColor: 'white' }} />
                                 <View style={{ flexDirection: 'row', padding: responsiveWidth(1) }}>
                                     <View style={{ flex: 1 }}>
-                                        <Text variant='titleLarge' style={styles.textWhite}>₹ 180</Text>
-                                        <Text variant='bodyMedium' style={[styles.textWhite, { textDecorationLine: 'underline' }]}>Medium size pizza</Text>
+                                        <Text variant='titleLarge' style={styles.textWhite}>₹ {price}</Text>
+                                        <Text variant='bodyMedium' style={[styles.textWhite, { textDecorationLine: 'underline' }]}>{size} size pizza</Text>
                                     </View>
                                     <View style={{justifyContent: 'center', alignItems: 'center'}}>
                                         <Button mode='elevated'>Add</Button>

@@ -1,39 +1,28 @@
 //import liraries
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
-import { Text } from 'react-native-paper';
+import { Button, Text } from 'react-native-paper';
 import { responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
 import DashboardMenuItem from './DashbaordMenuItem';
-
-const MENUS = [
-    {
-        title: 'Veg Pizza',
-    },
-    {
-        title: 'Non-Veg Pizza',
-    },
-    {
-        title: 'Gourment Pizza',
-    },
-    {
-        title: 'Pizza Mania',
-    },
-    {
-        title: 'Value Combos',
-    },
-    {
-        title: 'Garlic Breads & More',
-    }
-];
-
-const MenuItems = MENUS.map((item, index) => ({...item, image: `https://source.unsplash.com/random/300x200?&sig=${index}`}))
+import firestore from '@react-native-firebase/firestore';
+import { FIRESTORE } from '../utils/firestoreConstants';
 
 // create a component
 const DashboardMenus = () => {
+    const [menuItems, setMenuItems] = useState([]);
+
+    useEffect(() => {
+        firestore().collection(FIRESTORE.collections.dashboardMenus).get().then(snapshot => {
+            const data = [];
+            snapshot.forEach(item => data.push(item.data()));
+            setMenuItems(data);
+        })
+    }, [])
+
     return (
         <View style={styles.container}>
             <Text variant='titleMedium'>Menus</Text>
-            <FlatList data={MenuItems} numColumns={3} renderItem={({item}) => <DashboardMenuItem item={item} />} />
+            <FlatList data={menuItems} numColumns={3} renderItem={({item}) => <DashboardMenuItem item={item} />} />
         </View>
     );
 };
