@@ -10,7 +10,7 @@ const Stack = createNativeStackNavigator();
 const AppRouter = () => {
     return (
         <NavigationContainer>
-            <Stack.Navigator screenOptions={{header: () => null}}>
+            <Stack.Navigator screenOptions={{ header: () => null }}>
                 {appRoutes.map((item) => <Stack.Screen key={item.name} name={item.name} component={item.component} />)}
             </Stack.Navigator>
         </NavigationContainer>
