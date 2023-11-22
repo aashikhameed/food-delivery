@@ -5,8 +5,9 @@ import { Button, Divider, Text } from 'react-native-paper';
 import { responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
 import CardItem from './CardItem';
 import DashboardMenus from './DashboardMenus';
-import firestore from '@react-native-firebase/firestore';
+import firestore, { FirebaseFirestoreTypes, firebase } from '@react-native-firebase/firestore';
 import { FIRESTORE } from '../utils/firestoreConstants';
+import _ from 'lodash';
 
 // create a component
 const DashboardTodaySpecial = () => {
@@ -14,11 +15,12 @@ const DashboardTodaySpecial = () => {
     const [todaysSpecial, setTodaysSpecial] = useState([]);
 
     useEffect(() => {
-        const subscribe = firestore().collection(FIRESTORE.collections.todaysSpecial).onSnapshot(snapshot => {
-            const data = [];
-            snapshot.forEach(item => data.push(item.data()))
-            setTodaysSpecial(data)
-        });
+        const subscribe = firestore().collection(FIRESTORE.collections.todaysSpecial).orderBy('date', 'asc')
+            .onSnapshot(snapshot => {
+                const data = [];
+                snapshot?.forEach(item => data.push(item.data()))
+                setTodaysSpecial(data.reverse())
+            });
         return () => subscribe();
     }, []);
 
@@ -27,9 +29,10 @@ const DashboardTodaySpecial = () => {
             name: 'Margherita',
             description: 'A classic pizza topped with tomato sauce, mozzarella cheese, and fresh basil leaves.',
             price: 160,
-            image: 'https://source.unsplash.com/random/300x200?&sig=2',
-            size: 'Small'
-          })
+            image: 'https://source.unsplash.com/random/300x200?&sig=' + _.uniqueId(),
+            size: 'Small',
+            date: firestore.FieldValue.serverTimestamp()
+        })
     }
 
     return (
@@ -37,7 +40,7 @@ const DashboardTodaySpecial = () => {
             <Button onPress={todaysspecial}>Update todays's Special </Button>
             <FlatList
                 contentContainerStyle={styles.flatlistContainer}
-                ListHeaderComponent={() => <>
+                ListHeaderComponent={<>
                     <DashboardMenus />
                     <Divider />
                     <Text style={{ marginTop: responsiveHeight(1) }} variant='titleMedium'>Today's Special</Text>

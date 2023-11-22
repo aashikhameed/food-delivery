@@ -1,34 +1,19 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-  useColorScheme,
-} from 'react-native';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { View, StyleSheet } from 'react-native';
 import AppRouter from './src/router/AppRouter';
 
-function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
+const App = () => {
   return (
-    <SafeAreaView style={styles.root}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={isDarkMode ? Colors.darker : Colors.lighter}
-      />
+    <View style={styles.container}>
       <AppRouter />
-    </SafeAreaView>
+    </View>
   );
-}
-
-export default App;
-
+};
 
 const styles = StyleSheet.create({
-  root: {
+  container: {
     flex: 1,
-    backgroundColor: 'white'
-  }
+  },
+});
 
-})
+export default App;
